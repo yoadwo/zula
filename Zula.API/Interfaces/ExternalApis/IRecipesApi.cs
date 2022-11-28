@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using Zula.API.Models;
 
-namespace Zula.API.Handlers
+namespace Zula.API.Interfaces.ExternalApis
 {
-    public interface IRecipesHandler
+    public interface IRecipesApi
     {
-        public Task<Recipe> GetRecipeAsync(int id);
         public Task<IEnumerable<Recipe>> GetAllRecipesAsync(string query);
-        public Task<Recipe> OnPostUploadAsync(Recipe newRecipe);
     }
 }

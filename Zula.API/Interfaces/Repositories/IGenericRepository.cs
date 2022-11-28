@@ -7,18 +7,13 @@ using Zula.API.Models;
 
 namespace Zula.API.Interfaces.Repositories
 {
-    public interface IGenericRepository<T> where T : class, IEntity
+    public interface IGenericRepository<T> where T : class, IEntityNumeric
     {
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T> GetAsync(string id);
-        // not sure how to make async
-        // find() must receive object[]: params, not  expressionFunc:expression
-        //Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> expression);
-        T Add(T entity);
-        T Update(T entity);
-        T Delete(T entity);
-
-        //void AddRange(IEnumerable<T> entities);        
-        //void RemoveRange(IEnumerable<T> entities);
+        Task<IEnumerable<T>> All();
+        Task<T> GetById(int id);
+        Task<bool> Add(T entity);
+        Task<bool> Delete(Guid id);
+        Task<bool> Upsert(T entity);
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
     }
 }

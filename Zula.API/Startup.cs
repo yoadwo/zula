@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Zula.API
 {
@@ -38,6 +39,17 @@ namespace Zula.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Zula.API", Version = "v1" });
             });
+            // handlers
+            services.AddScoped<Handlers.IRecipesHandler, Handlers.RecipesHandler>();
+            // services
+            services.AddScoped<Interfaces.ExternalApis.IRecipesApi, Services.RecipesApi>();
+            services.AddHttpClient<Interfaces.Services.IHttpClient, Services.HttpClientWrapper>();
+            // databases
+            services.AddScoped<Interfaces.Repositories.IRecipeRepository, EFCore.RecipeRepository>();
+            services.AddScoped<Interfaces.Repositories.IUnitOfWork, EFCore.UnitOfWork>();
+            ConfigureEFCore(services);
+            // configurations
+            services.Configure<AppSettings.ApiKeys>(Configuration.GetSection("ApiKeys"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +72,20 @@ namespace Zula.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureEFCore(IServiceCollection services)
+        {
+            //var sqlConfig = Configuration.GetSection("App:Sql").Get<AppSettings.SqlConfig>();
+            //var connectionString = $"server={sqlConfig.Address};user={sqlConfig.Username};password={sqlConfig.Password};database={sqlConfig.DbName}";
+
+            ServerVersion serverVersion = new MySqlServerVersion(new System.Version(5, 5, 62));   
+            services.AddDbContext<EFCore.DBContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(Configuration.GetConnectionString("sql11.freesqldatabase.com"), serverVersion) // <-- Use<MySql/Sql/InMemoryDb> diffrent nugets
+                    .EnableSensitiveDataLogging() // <-- These two calls are optional but help
+                    .EnableDetailedErrors()       // <-- with debugging (remove for production).
+            );
         }
     }
 }

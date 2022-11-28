@@ -18,6 +18,16 @@ namespace Zula.API
                     logging.ClearProviders();
                     logging.AddConsole();
                 })
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    if (context.HostingEnvironment.IsDevelopment())
+                    {
+                        return;
+                    }
+
+                    //var builtConfig = config.Build();
+                    //config.AddAzureKeyVault($"https://{builtConfig["KeyVaultName"]}.vault.azure.net/");
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Zula.API.Handlers;
 using Zula.API.Models;
 
@@ -13,20 +15,26 @@ namespace Zula.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly ILogger<RecipesController> _logger;
-        private readonly IRecipesHandler recipesHandler;
+        private readonly IRecipesHandler _recipesHandler;
+
+        public RecipesController(ILogger<RecipesController> logger, IRecipesHandler recipesHandler)
+        {
+            _logger = logger;
+            _recipesHandler = recipesHandler;
+        }
 
         // GET: api/<RecipesController>
         [HttpGet]
-        public IEnumerable<Recipe> Get()
+        public async Task<IEnumerable<Recipe>> Get([FromQuery][Required] string query)
         {
-            return new List<Recipe>() { };
+            return await _recipesHandler.GetAllRecipesAsync(query);
         }
 
         // GET api/<RecipesController>/5
         [HttpGet("{id}")]
-        public string Get(string id)
+        public async Task<Recipe> Get(int id)
         {
-            return "value";
+            return await _recipesHandler.GetRecipeAsync(id);
         }
 
         // POST api/<RecipesController>
