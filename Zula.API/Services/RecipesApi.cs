@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
-using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -37,15 +36,11 @@ namespace Zula.API.Services
 			queryBuilder.Add("query", query);
 			string queryParams = queryBuilder.ToQueryString().Value;
 
-			var response = await _httpClient.SendHttpRequestAsync<RecipeList>(
+			var response = await _httpClient.SendHttpRequestAsync<RecipeResults>(
 				HttpMethod.Get,
 				"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch",
 				queryParams,
 				headers);
-			// until a better logic is determined,
-			// just take the one with most ingredients
-			var missed = response.Results.Aggregate((agg, next) =>
-			next.MissedIngredientCount > agg.MissedIngredientCount ? next : agg);
 			return response.Results;
 		}
     }

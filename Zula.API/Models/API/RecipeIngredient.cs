@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Zula.API.Models
 {
-    public class Ingredient
+    public class RecipeIngredient
     {
         [JsonPropertyName("id")]
         public int ID { get; set; }

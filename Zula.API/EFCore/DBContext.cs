@@ -9,6 +9,6 @@ namespace Zula.API.EFCore
         {
         }
 
-        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Zula.API.Handlers
     public interface IRecipesHandler
     {
         public Task<Recipe> GetRecipeAsync(int id);
-        public Task<IEnumerable<Recipe>> GetAllRecipesAsync(string query);
-        public Task<Recipe> OnPostUploadAsync(Recipe newRecipe);
+        public Task<IEnumerable<RecipeIngredient>> GetIngredientsByProduct(string query);
+        public Task UpdateIngredientsList(IEnumerable<RecipeIngredient> ingredients);
     }
 }

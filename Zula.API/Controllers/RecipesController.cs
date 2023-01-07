@@ -25,9 +25,19 @@ namespace Zula.Controllers
 
         // GET: api/<RecipesController>
         [HttpGet]
-        public async Task<IEnumerable<Recipe>> Get([FromQuery][Required] string query)
+        public async Task<IEnumerable<RecipeIngredient>> Get([FromQuery][Required] string query)
         {
-            return await _recipesHandler.GetAllRecipesAsync(query);
+            return await _recipesHandler.GetIngredientsByProduct(query);
+        }
+
+        // POST api/<RecipesController>
+        [HttpPost]
+        public async Task Post([FromBody] IEnumerable<RecipeIngredient> ingredients)
+        {
+            // create a user id
+            // add ingredients and user id
+            await _recipesHandler.UpdateIngredientsList(ingredients);
+            return;
         }
 
         // GET api/<RecipesController>/5
@@ -35,12 +45,6 @@ namespace Zula.Controllers
         public async Task<Recipe> Get(int id)
         {
             return await _recipesHandler.GetRecipeAsync(id);
-        }
-
-        // POST api/<RecipesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
         }
 
         // PUT api/<RecipesController>/5

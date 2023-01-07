@@ -79,10 +79,11 @@ namespace Zula.API
             //var sqlConfig = Configuration.GetSection("App:Sql").Get<AppSettings.SqlConfig>();
             //var connectionString = $"server={sqlConfig.Address};user={sqlConfig.Username};password={sqlConfig.Password};database={sqlConfig.DbName}";
 
-            ServerVersion serverVersion = new MySqlServerVersion(new System.Version(5, 5, 62));   
+            //ServerVersion serverVersion = new MySqlServerVersion(new System.Version(5, 5, 62));
+            var connectionString = Configuration.GetConnectionString("hostinger");
             services.AddDbContext<EFCore.DBContext>(
                 dbContextOptions => dbContextOptions
-                    .UseMySql(Configuration.GetConnectionString("sql11.freesqldatabase.com"), serverVersion) // <-- Use<MySql/Sql/InMemoryDb> diffrent nugets
+                    .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)) // <-- Use<MySql/Sql/InMemoryDb> diffrent nugets
                     .EnableSensitiveDataLogging() // <-- These two calls are optional but help
                     .EnableDetailedErrors()       // <-- with debugging (remove for production).
             );

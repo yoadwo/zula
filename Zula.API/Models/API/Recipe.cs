@@ -21,6 +21,6 @@ namespace Zula.API.Models
         public int MissedIngredientCount { get; set; }
 
         [JsonPropertyName("missedIngredients")]
-        public IEnumerable<Ingredient> MissedIngredients {get; set;}
+        public IEnumerable<RecipeIngredient> MissedIngredients {get; set;}
     }
 }

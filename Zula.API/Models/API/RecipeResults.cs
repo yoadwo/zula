@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Zula.API.Models
 {
-    public class RecipeList
+    public class RecipeResults
     {
         [JsonPropertyName("results")]
         public IEnumerable<Recipe> Results { get; set; }

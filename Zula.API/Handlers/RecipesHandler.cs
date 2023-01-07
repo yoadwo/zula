@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using Zula.API.Interfaces.Repositories;
 using Zula.API.Models;
 
@@ -17,9 +18,14 @@ namespace Zula.API.Handlers
             _unitOfWork = unitOfWork;
         }
         
-        public async Task<IEnumerable<Recipe>> GetAllRecipesAsync(string query)
+        public async Task<IEnumerable<RecipeIngredient>> GetIngredientsByProduct(string query)
         {
-            return await _recipesApi.GetAllRecipesAsync(query);
+            var recipes = await _recipesApi.GetAllRecipesAsync(query);
+            // until a better logic is determined,
+            // just take the one with most ingredients
+            var recipe = recipes.Aggregate((agg, next) =>
+                next.MissedIngredientCount > agg.MissedIngredientCount ? next : agg);
+            return recipe.MissedIngredients;
         }
 
         public async Task<Recipe> GetRecipeAsync(int id)
@@ -27,7 +33,7 @@ namespace Zula.API.Handlers
             return await _unitOfWork.Recipes.GetById(id);
         }
 
-        public Task<Recipe> OnPostUploadAsync(Recipe newRecipe)
+        public Task UpdateIngredientsList(IEnumerable<RecipeIngredient> ingredients)
         {
             throw new System.NotImplementedException();
         }
