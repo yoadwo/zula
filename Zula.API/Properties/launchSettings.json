@@ -16,8 +16,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ApiKeys__spoonacularRecipeFoodNutrition__key": "9902d8aafbmsh1775feb362e4b7dp1d93c2jsn8725e2ebec6e",
-        "ConnectionStrings__freesqldatabase": "server=sql11.freesqldatabase.com;user=sql11497680;password=eRkVHUgcIK;database=sql11497680",
-        "ConnectionStrings__hostinger": "server=sql426.main-hosting.eu;user=u520350406_zula_db_admin;password=Z~+|w!MP@+6b;database=u520350406_zula_db"
+        "ConnectionStrings__freesqldatabase": "server=sql11.freesqldatabase.com;user=;password=;database=",
+        "ConnectionStrings__hostinger": "server=sql426.main-hosting.eu;user=;password=;database="
       }
     },
     "Zula.API": {
